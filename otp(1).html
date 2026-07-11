@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Input OTP 6 Digit</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .card {
+    background: #fff;
+    padding: 32px 28px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 320px;
+  }
+  h2 {
+    margin-top: 0;
+    color: #222;
+    font-size: 20px;
+  }
+  .otp-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+  }
+  .otp-inputs input {
+    width: 40px;
+    height: 48px;
+    text-align: center;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+  }
+  .otp-inputs input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 4px rgba(74,144,226,0.5);
+  }
+  button {
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #3a7bc8;
+  }
+  #hasil {
+    margin-top: 18px;
+    font-size: 16px;
+    color: #333;
+    min-height: 22px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Masukkan Kode OTP</h2>
+  <div class="otp-inputs">
+    <input type="text" maxlength="1" inputmode="numeric" />
+    <input type="text" maxlength="1" inputmode="numeric" />
+    <input type="text" maxlength="1" inputmode="numeric" />
+    <input type="text" maxlength="1" inputmode="numeric" />
+    <input type="text" maxlength="1" inputmode="numeric" />
+    <input type="text" maxlength="1" inputmode="numeric" />
+  </div>
+  <button onclick="submitOtp()">Submit</button>
+  <div id="hasil"></div>
+</div>
+
+<script>
+  const inputs = document.querySelectorAll('.otp-inputs input');
+
+  inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      // hanya izinkan angka
+      input.value = input.value.replace(/[^0-9]/g, '');
+      if (input.value.length === 1 && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && input.value === '' && index > 0) {
+        inputs[index - 1].focus();
+      }
+    });
+  });
+
+  function submitOtp() {
+    let kode = '';
+    inputs.forEach(input => kode += input.value);
+
+    const hasilDiv = document.getElementById('hasil');
+
+    if (kode.length < 6) {
+      hasilDiv.style.color = 'red';
+      hasilDiv.textContent = 'Kode OTP belum lengkap!';
+    } else {
+      hasilDiv.style.color = '#2e7d32';
+      hasilDiv.textContent = kode;
+    }
+  }
+</script>
+
+</body>
+</html>
